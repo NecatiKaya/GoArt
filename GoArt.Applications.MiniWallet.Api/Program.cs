@@ -13,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<DapperContext>();
+builder.Services.AddHealthChecks();
 
 string? connectionString = builder.Configuration.GetConnectionString("GoArtConnection");
 ArgumentException.ThrowIfNullOrEmpty(connectionString);
@@ -45,5 +46,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapControllers();
-
+app.MapHealthChecks("/_health");
 app.Run();
