@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Domain\" />
+    <None Remove="Features\" />
+    <None Remove="Core\" />
+    <None Remove="Domain\ValueTypes\" />
+    <None Remove="Localization\" />
+    <None Remove="Core\Data\" />
+    <None Remove="Core\Problem\" />
+    <None Remove="Features\AddWallet\" />
+    <None Remove="Features\GetWalletById\" />
+    <None Remove="Features\Deposit\" />
+    <None Remove="Repository\" />
+    <None Remove="Features\Withdraw\" />
+    <None Remove="Controllers\" />
+    <None Remove="Controllers\ViewModels\" />
+    <None Remove="Extensions\" />
+    <None Remove="Features\GetBalance\" />
+    <None Remove="Features\GetMoneyTransactionReports\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Domain\" />
+    <Folder Include="Features\" />
+    <Folder Include="Core\" />
+    <Folder Include="Domain\ValueTypes\" />
+    <Folder Include="Localization\" />
+    <Folder Include="Core\Data\" />
+    <Folder Include="Core\Problem\" />
+    <Folder Include="Features\AddWallet\" />
+    <Folder Include="Features\GetWalletById\" />
+    <Folder Include="Features\Deposit\" />
+    <Folder Include="Repository\" />
+    <Folder Include="Features\Withdraw\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Features\GetBalance\" />
+    <Folder Include="Features\GetMoneyTransactionReports\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.0.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="FluentValidation" Version="11.5.2" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
+  </ItemGroup>
+</Project>
