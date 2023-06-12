@@ -22,9 +22,11 @@
   <ItemGroup>
     <None Remove="Middleware\" />
     <None Remove="Utilties\" />
+    <None Remove="Setup\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Middleware\" />
     <Folder Include="Utilties\" />
+    <Folder Include="Setup\" />
   </ItemGroup>
 </Project>
