@@ -24,7 +24,7 @@ public class WalletApiController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet("/{id}")]
+    [HttpGet("{id}")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(GetWalletByIdResponse), (int)HttpStatusCode.OK)]
     public async Task<ActionResult<GetWalletByIdResponse>> GetWalletById([FromRoute] string id)
@@ -48,7 +48,7 @@ public class WalletApiController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("/{walletId}/deposit")]
+    [HttpPost("{walletId}/deposit")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType(typeof(DepositResponse), (int)HttpStatusCode.OK)]
@@ -64,7 +64,7 @@ public class WalletApiController : ControllerBase
         return Ok(depositResponse);
     }
 
-    [HttpPost("/{walletId}/withdraw")]
+    [HttpPost("{walletId}/withdraw")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType(typeof(WithdrawResponse), (int)HttpStatusCode.OK)]
@@ -80,7 +80,7 @@ public class WalletApiController : ControllerBase
         return Ok(withdrawResponse);
     }
 
-    [HttpGet("/{walletId}/balance/{currency}")]
+    [HttpGet("{walletId}/balance/{currency}")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType(typeof(GetBalanceResponse), (int)HttpStatusCode.OK)]
@@ -91,7 +91,7 @@ public class WalletApiController : ControllerBase
         return Ok(balanceResponse);
     }
 
-    [HttpGet("/{walletId}/transactions")]
+    [HttpGet("{walletId}/transactions")]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType(typeof(GetMoneyTransactionsReponse), (int)HttpStatusCode.OK)]

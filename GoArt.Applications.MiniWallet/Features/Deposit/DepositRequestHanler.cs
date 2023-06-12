@@ -10,9 +10,12 @@ public class DepositRequestHanler : IRequestHandler<DepositRequest, DepositRespo
 {
     private readonly IWalletRepository _walletRepository;
 
-    public DepositRequestHanler(IWalletRepository walletRepository)
+    private readonly ICurrencyConverter _currencyConverter;
+
+    public DepositRequestHanler(IWalletRepository walletRepository, ICurrencyConverter currencyConverter)
     {
         _walletRepository = walletRepository;
+        _currencyConverter = currencyConverter;
     }
 
     public async Task<DepositResponse> Handle(DepositRequest request, CancellationToken cancellationToken)
@@ -26,7 +29,7 @@ public class DepositRequestHanler : IRequestHandler<DepositRequest, DepositRespo
         //Do apply business logic whether end user can deposit.
         //If yes, save it to database and object.
         //If not dont add deposit operation to dataase and object
-        WalletOperationResponse canDeposit = wallet.CanDeposit(request.Amount.Currency, request.Amount.Amount);
+        WalletOperationResponse canDeposit = wallet.CanDeposit(request.Amount.Currency, request.Amount.Amount, _currencyConverter);
         if (!canDeposit.IsSuccess)
         {
             throw new ProblemException(canDeposit.Problems!.First());
@@ -34,7 +37,7 @@ public class DepositRequestHanler : IRequestHandler<DepositRequest, DepositRespo
 
         await _walletRepository.Deposit(request.WalletToAddDeposit, request.Amount);
 
-        wallet.Deposit(request.Amount.Currency, request.Amount.Amount);
+        wallet.Deposit(request.Amount.Currency, request.Amount.Amount, _currencyConverter);
 
         DepositResponse response = new DepositResponse(wallet);
         return response;

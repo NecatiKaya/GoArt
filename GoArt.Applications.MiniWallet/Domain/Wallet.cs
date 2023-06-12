@@ -35,7 +35,7 @@ public sealed class Wallet
         return wallet;
     }
 
-    public WalletOperationResponse CanDeposit(Currency currency, MoneyAmount amount)
+    public WalletOperationResponse CanDeposit(Currency currency, MoneyAmount amount, ICurrencyConverter currencyConverter)
     {
         /*
             There might be business cases where it is not allowed to deposit. Might be blocked wallet or sth else.
@@ -43,9 +43,9 @@ public sealed class Wallet
         return WalletOperationResponse.Success();
     }
 
-    public void Deposit(Currency currency, MoneyAmount amount)
+    public void Deposit(Currency currency, MoneyAmount amount, ICurrencyConverter currencyConverter)
     {
-        WalletOperationResponse canDeposit = CanDeposit(currency, amount);
+        WalletOperationResponse canDeposit = CanDeposit(currency, amount, currencyConverter);
         if (!canDeposit.IsSuccess)
         {
             throw new ProblemException(Problem.Create(MiniWalletErrorCodes.NOT_ENOUGH_AMOUNT_IN_WALLET_FOR_CURRENCY));

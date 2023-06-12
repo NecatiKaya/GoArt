@@ -9,7 +9,44 @@ namespace GoArt.Applications.MiniWallet.Domain;
 /// </summary>
 public class DefaultCurrencyConverter : ICurrencyConverter
 {
-    private decimal GetCurrencyRateInEuro(Currency currency)
+    private decimal EuroCurrencyRateWithUSD = 1.0765m;
+    private decimal EuroCurrencyRateWithGBP = 0.85678m;
+    private decimal EuroCurrencyRateWithTRY = 25.3874m;
+
+    public MoneyAmount GetExchangeRate(MoneyAmountWithCurrency from, Currency to)
+    {
+        // Convert Euro to Euro
+        if (from.Currency == Currency.Euro && to == Currency.Euro)
+        {
+            return from.Amount;
+        }
+
+        // First Get the exchange rate of both currencies in euro
+        decimal toRate = GetCurrencyRate(to);
+        decimal fromRate = GetCurrencyRate(from.Currency);
+
+        decimal value = 0;
+
+        // Convert Between Euro to Other Currency
+        if (from.Currency == Currency.Euro)
+        {
+            value = Math.Round(from.Amount.Value * toRate, 2);
+
+        }
+        else if (from.Currency == Currency.Euro)
+        {
+            value = from.Amount.Value / fromRate;
+        }
+        else
+        {
+            // Calculate non EURO exchange rates From A to B
+            value = (from.Amount.Value * toRate) / fromRate;
+        }
+
+        return value.ConvertToMoneyAmount();
+    }
+
+    private decimal GetCurrencyRateInEuroFromApi(Currency currency)
     {
         // Create with currency parameter, a valid RSS url to ECB euro exchange rate feed
         string rssUrl = string.Concat("http://www.ecb.int/rss/fxref-", currency.CurrencyCode.ToLower() + ".html");
@@ -49,38 +86,19 @@ public class DefaultCurrencyConverter : ICurrencyConverter
         return 0;
     }
 
-    public  MoneyAmount GetExchangeRate(MoneyAmountWithCurrency from, Currency to)
+    private decimal GetCurrencyRate(Currency currency)
     {
-        // Convert Euro to Euro
-        if (from.Currency == Currency.Euro && to == Currency.Euro)
+        switch (currency.CurrencyCode)
         {
-            return from.Amount;
+            case "TRY":
+                return this.EuroCurrencyRateWithTRY;
+            case "USD":
+                return this.EuroCurrencyRateWithUSD;
+            case "GBP":
+                return this.EuroCurrencyRateWithGBP;
+            case "EUR":
+            default:
+                return 1m;
         }
-
-        // First Get the exchange rate of both currencies in euro
-        decimal toRate = GetCurrencyRateInEuro(to);
-        decimal fromRate = GetCurrencyRateInEuro(from.Currency);
-
-        decimal value = 0;
-        //int wholePart = 0;
-        //int pennyPart = 0;
-
-        // Convert Between Euro to Other Currency
-        if (from.Currency == Currency.Euro)
-        {
-            value = Math.Round(from.Amount.Value * toRate, 2);
-
-        }
-        else if (from.Currency == Currency.Euro)
-        {
-            value = from.Amount.Value / fromRate;
-        }
-        else
-        {
-            // Calculate non EURO exchange rates From A to B
-            value = (from.Amount.Value * toRate) / fromRate;
-        }
-
-        return value.ConvertToMoneyAmount();
     }
 }

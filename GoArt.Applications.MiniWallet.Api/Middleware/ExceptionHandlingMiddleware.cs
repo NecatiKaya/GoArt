@@ -50,6 +50,7 @@ internal sealed class ExceptionHandlingMiddleware : IMiddleware
             problem.Instance = instance;
             problem.Status = problem.Status is null ? (int)HttpStatusCode.BadRequest : (int)problem.Status;
 
+            httpContext.Response.StatusCode = (int)problem.Status;
             await httpContext.Response.WriteAsync(JsonSerializer.Serialize(problem));
             return;
         }
@@ -61,6 +62,7 @@ internal sealed class ExceptionHandlingMiddleware : IMiddleware
             StatusCode = StatusCodes.Status500InternalServerError,
             Instance = instance
         };
+        httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
         await httpContext.Response.WriteAsync(JsonSerializer.Serialize((response)));
     }
 }
